@@ -8,8 +8,13 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
-builder.Services.AddScoped<ICreditScoreService, CreditScoreService>();
-builder.Services.AddScoped<ILoanApplicationRepository, LoanApplicationRepository>();
+builder.Services.AddScoped<ICreditScoreService, MockCreditScoreService>();
+
+// Lokalt (Development): SQL Server. I Azure: in-memory, Singleton så att datan lever mellan anrop.
+if (builder.Environment.IsDevelopment())
+    builder.Services.AddScoped<ILoanApplicationRepository, LoanApplicationRepository>();
+else
+    builder.Services.AddSingleton<ILoanApplicationRepository, MockLoanApplicationRepository>();
 builder.Services.AddScoped<ILoanApplicationService, LoanApplicationService.Api.Services.LoanApplicationService>();
 
 var app = builder.Build();

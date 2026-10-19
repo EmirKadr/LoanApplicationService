@@ -2,7 +2,7 @@
 
 # ---------- Giltiga ansökningar → 201 Created ----------
 
-### Anna, 100 000 kr → 201
+### Anna Svensson (70) → 201 Approved
 POST {{LoanApplicationService.Api_HostAddress}}/api/loanapplications
 Content-Type: application/json
 
@@ -11,31 +11,49 @@ Content-Type: application/json
   "amount": 100000
 }
 
-### Erik, 5 000 kr → 201
+### Erik Johansson (49) → 201 Declined
 POST {{LoanApplicationService.Api_HostAddress}}/api/loanapplications
 Content-Type: application/json
 
 {
-  "socialSecurityNumber": "19851224-1234",
-  "amount": 5000
+  "socialSecurityNumber": "19850515-1234",
+  "amount": 50000
 }
 
-### Sara, 2 500 000 kr → 201
+### Maria Lindberg (100) → 201 Approved
+POST {{LoanApplicationService.Api_HostAddress}}/api/loanapplications
+Content-Type: application/json
+
+{
+  "socialSecurityNumber": "19780320-5678",
+  "amount": 750000
+}
+
+### Sara Ahmed (50) → 201 Approved
 POST {{LoanApplicationService.Api_HostAddress}}/api/loanapplications
 Content-Type: application/json
 
 {
   "socialSecurityNumber": "20000229-9876",
-  "amount": 2500000
+  "amount": 250000
 }
 
-### Ali, 1 kr (minsta giltiga) → 201
+### Ali Karimi (15) → 201 Declined
 POST {{LoanApplicationService.Api_HostAddress}}/api/loanapplications
 Content-Type: application/json
 
 {
   "socialSecurityNumber": "19751010-5555",
-  "amount": 1
+  "amount": 30000
+}
+
+### Okänd person (0) → 201 Declined
+POST {{LoanApplicationService.Api_HostAddress}}/api/loanapplications
+Content-Type: application/json
+
+{
+  "socialSecurityNumber": "19990909-0000",
+  "amount": 20000
 }
 
 # ---------- Ogiltiga ansökningar → 400 Bad Request ----------
