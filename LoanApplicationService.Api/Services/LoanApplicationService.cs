@@ -12,11 +12,7 @@ public class LoanApplicationService(
 
     public async Task<LoanApplication> CreateLoanApplicationAsync(string socialSecurityNumber, int amount)
     {
-        if (!SocialSecurityNumberValidator.IsValid(socialSecurityNumber))
-            throw new ArgumentException("Personnummer måste ha formatet YYYYMMDD-XXXX.");
-
-        if (amount <= 0)
-            throw new ArgumentException("Lånebeloppet måste vara större än 0.");
+        LoanApplicationValidator.Validate(socialSecurityNumber, amount);
 
         var creditScore = await creditScoreService.GetCreditScoreAsync(socialSecurityNumber);
 
