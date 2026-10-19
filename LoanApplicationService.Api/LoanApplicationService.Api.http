@@ -1,6 +1,8 @@
 @LoanApplicationService.Api_HostAddress = http://localhost:9000
 
-### Giltig ansökan → 201 Created
+# ---------- Giltiga ansökningar → 201 Created ----------
+
+### Anna, 100 000 kr → 201
 POST {{LoanApplicationService.Api_HostAddress}}/api/loanapplications
 Content-Type: application/json
 
@@ -9,22 +11,114 @@ Content-Type: application/json
   "amount": 100000
 }
 
-### Felaktigt personnummer → 400 Bad Request
+### Erik, 5 000 kr → 201
 POST {{LoanApplicationService.Api_HostAddress}}/api/loanapplications
 Content-Type: application/json
 
 {
-  "socialSecurityNumber": "9001012010",
+  "socialSecurityNumber": "19851224-1234",
+  "amount": 5000
+}
+
+### Sara, 2 500 000 kr → 201
+POST {{LoanApplicationService.Api_HostAddress}}/api/loanapplications
+Content-Type: application/json
+
+{
+  "socialSecurityNumber": "20000229-9876",
+  "amount": 2500000
+}
+
+### Ali, 1 kr (minsta giltiga) → 201
+POST {{LoanApplicationService.Api_HostAddress}}/api/loanapplications
+Content-Type: application/json
+
+{
+  "socialSecurityNumber": "19751010-5555",
+  "amount": 1
+}
+
+# ---------- Ogiltiga ansökningar → 400 Bad Request ----------
+
+### Saknar bindestreck → 400
+POST {{LoanApplicationService.Api_HostAddress}}/api/loanapplications
+Content-Type: application/json
+
+{
+  "socialSecurityNumber": "199001012010",
   "amount": 100000
 }
 
-### Belopp 0 → 400 Bad Request
+### Kort format (YYMMDD) → 400
+POST {{LoanApplicationService.Api_HostAddress}}/api/loanapplications
+Content-Type: application/json
+
+{
+  "socialSecurityNumber": "900101-2010",
+  "amount": 100000
+}
+
+### För få slutsiffror → 400
+POST {{LoanApplicationService.Api_HostAddress}}/api/loanapplications
+Content-Type: application/json
+
+{
+  "socialSecurityNumber": "19900101-201",
+  "amount": 100000
+}
+
+### Bokstäver → 400
+POST {{LoanApplicationService.Api_HostAddress}}/api/loanapplications
+Content-Type: application/json
+
+{
+  "socialSecurityNumber": "1990010A-2010",
+  "amount": 100000
+}
+
+### Plustecken i stället för bindestreck → 400
+POST {{LoanApplicationService.Api_HostAddress}}/api/loanapplications
+Content-Type: application/json
+
+{
+  "socialSecurityNumber": "19900101+2010",
+  "amount": 100000
+}
+
+### Tomt personnummer → 400
+POST {{LoanApplicationService.Api_HostAddress}}/api/loanapplications
+Content-Type: application/json
+
+{
+  "socialSecurityNumber": "",
+  "amount": 100000
+}
+
+### Personnummer saknas (null) → 400
+POST {{LoanApplicationService.Api_HostAddress}}/api/loanapplications
+Content-Type: application/json
+
+{
+  "socialSecurityNumber": null,
+  "amount": 100000
+}
+
+### Belopp 0 → 400
 POST {{LoanApplicationService.Api_HostAddress}}/api/loanapplications
 Content-Type: application/json
 
 {
   "socialSecurityNumber": "19900101-2010",
   "amount": 0
+}
+
+### Negativt belopp → 400
+POST {{LoanApplicationService.Api_HostAddress}}/api/loanapplications
+Content-Type: application/json
+
+{
+  "socialSecurityNumber": "19900101-2010",
+  "amount": -5000
 }
 
 ###
