@@ -1,6 +1,30 @@
-@LoanApplicationService.Api_HostAddress = http://localhost:5158
+@LoanApplicationService.Api_HostAddress = http://localhost:9000
 
-GET {{LoanApplicationService.Api_HostAddress}}/weatherforecast/
-Accept: application/json
+### Giltig ansökan → 201 Created
+POST {{LoanApplicationService.Api_HostAddress}}/api/loanapplications
+Content-Type: application/json
+
+{
+  "socialSecurityNumber": "19900101-2010",
+  "amount": 100000
+}
+
+### Felaktigt personnummer → 400 Bad Request
+POST {{LoanApplicationService.Api_HostAddress}}/api/loanapplications
+Content-Type: application/json
+
+{
+  "socialSecurityNumber": "9001012010",
+  "amount": 100000
+}
+
+### Belopp 0 → 400 Bad Request
+POST {{LoanApplicationService.Api_HostAddress}}/api/loanapplications
+Content-Type: application/json
+
+{
+  "socialSecurityNumber": "19900101-2010",
+  "amount": 0
+}
 
 ###
